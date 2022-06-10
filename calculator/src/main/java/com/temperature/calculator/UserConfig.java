@@ -27,3 +27,4 @@ public class UserConfig {
         return new InMemoryUserDetailsManager(user, admin);
     }
 }
+
