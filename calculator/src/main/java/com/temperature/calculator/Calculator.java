@@ -1,6 +1,5 @@
 package com.temperature.calculator;
 
-import java.util.ArrayList;
 
 public class Calculator {
 
