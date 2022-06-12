@@ -12,7 +12,6 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class UserConfig {
     @Bean
     public UserDetailsService users() {
-        // The builder will ensure the passwords are encoded before saving in memory
         User.UserBuilder users = User.withDefaultPasswordEncoder();
         UserDetails user = users
                 .username("user")
