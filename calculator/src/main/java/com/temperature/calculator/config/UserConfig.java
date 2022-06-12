@@ -1,4 +1,4 @@
-package com.temperature.calculator;
+package com.temperature.calculator.config;
 
 
 import org.springframework.context.annotation.Bean;
