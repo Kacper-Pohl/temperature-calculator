@@ -2,7 +2,7 @@
 
 Kalkulator, służący do konwersji temperatury między stopniami Celsjusza, Fahrenheita oraz Kelwina.
 
-Aplikacja oparta na spring boot, obsługiwana przez API.
+Aplikacja oparta na spring boot, obsługiwana przez _REST API_.
 
 Przed uruchomieniem ważne jest aby w _**application.properties**_ zmienić ściężkę bazy, tak aby była ustawiona 
 na plik _**calcHistory.mv.db**_ w _**resources/data**_.
