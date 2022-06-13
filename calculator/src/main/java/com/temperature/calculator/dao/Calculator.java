@@ -1,7 +1,8 @@
-package com.temperature.calculator;
+package com.temperature.calculator.dao;
 
 
-import javax.persistence.Column;
+import org.apache.commons.math3.util.Precision;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -20,11 +21,13 @@ public class Calculator {
     @Id
     private Timestamp timestamp;
 
+    private static final int PRECISION = 2;
+
     private Calculator(CalculationUnit calculationUnit, double kelvin, double fahrenheit, double celsius, Timestamp timestamp){
         this.calculationUnit = calculationUnit;
-        this.kelvin = kelvin;
-        this.fahrenheit = fahrenheit;
-        this.celsius = celsius;
+        this.kelvin = Precision.round(kelvin,PRECISION);
+        this.fahrenheit = Precision.round(fahrenheit,PRECISION);
+        this.celsius = Precision.round(celsius,PRECISION);
         this.timestamp = timestamp;
     }
 
@@ -86,7 +89,7 @@ public class Calculator {
 
     public static Calculator fromKelvin(double kelvin){
         double celsius = kelvin - 273.15;
-        double fahrenheit = (kelvin * 1.8) - 459.67 ;
+        double fahrenheit = (kelvin * 1.8) - 459.67;
         return new Calculator(CalculationUnit.KELVIN, kelvin,fahrenheit,celsius, new Timestamp(System.currentTimeMillis()));
     }
 }

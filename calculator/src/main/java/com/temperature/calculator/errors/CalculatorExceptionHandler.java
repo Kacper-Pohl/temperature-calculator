@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class CalculatorExceptionHandler extends ResponseEntityExceptionHandler {
 
-
     @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
     public ResponseEntity<Object> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException ex, final WebRequest request) {
 
@@ -23,6 +22,5 @@ public class CalculatorExceptionHandler extends ResponseEntityExceptionHandler {
         final ResponseError responseError = new ResponseError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
         return new ResponseEntity<Object>(responseError, new HttpHeaders(), responseError.getStatus());
     }
-
 
 }

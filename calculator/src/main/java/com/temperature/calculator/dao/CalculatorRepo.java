@@ -1,5 +1,6 @@
-package com.temperature.calculator;
+package com.temperature.calculator.dao;
 
+import com.temperature.calculator.dao.Calculator;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,17 +1,29 @@
-package com.temperature.calculator;
+package com.temperature.calculator.api;
 
 
+import com.temperature.calculator.dao.LocalHistory;
+import com.temperature.calculator.dao.Calculator;
+import com.temperature.calculator.dao.CalculatorRepo;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/calc")
 public class CalculatorController {
 
+
     private CalculatorRepo calculatorRepo;
-    private List<Calculator> history = new LinkedList<>();
+
+    private String getUsername(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = auth.getName();
+        return user;
+    }
+
+    private LocalHistory localHistory = LocalHistory.getInstance();
 
     public CalculatorController(CalculatorRepo calculatorRepo) {
         this.calculatorRepo = calculatorRepo;
@@ -20,30 +32,31 @@ public class CalculatorController {
     @GetMapping("/celsius/{degrees}")
     public Calculator celsius(@PathVariable double degrees) {
         var calulator = Calculator.fromCelsius(degrees);
-        history.add(calulator);
         calculatorRepo.save(calulator);
+        localHistory.addUserCalculation(getUsername(), calulator);
         return calulator;
     }
 
     @GetMapping("/fahrenheit/{degrees}")
     public Calculator fahrenheit(@PathVariable double degrees) {
         var calulator = Calculator.fromFahrenheit(degrees);
-        history.add(calulator);
         calculatorRepo.save(calulator);
+        localHistory.addUserCalculation(getUsername(), calulator);
         return calulator;
     }
 
     @GetMapping("/kelvin/{degrees}")
     public Calculator kelvin(@PathVariable double degrees) {
         var calulator = Calculator.fromKelvin(degrees);
-        history.add(calulator);
         calculatorRepo.save(calulator);
+        localHistory.addUserCalculation(getUsername(), calulator);
         return calulator;
     }
 
+
     @GetMapping("/history")
-    public List<Calculator> history(){
-        return history;
+    public List<Calculator> historyLocal(){
+        return localHistory.getUserHistory(getUsername());
     }
 
     @GetMapping("/history/all")
