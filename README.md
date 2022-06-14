@@ -310,9 +310,9 @@ public class ResponseError {
 ## Testy - API
 
 W ApiTest.java znajduje się pięc testów które sprawdzają czy przy zapytaniach do API wszystko zwraca się tak jak powinno.
-Wszystkie testy przeszły.
+Wszystkie testy poniżej przeszły pomyślnie.
 
-Pierwszy test sprawdza czy zwraca nam poprawny wynik kalkulacji i poprawny calculationUnit.
+Pierwszy test sprawdza czy zwraca nam poprawny wynik przy konwersji temperatur, oraz czy wyświetla się dobry calculationUnit, w zależności od wyboru jednostki z której konwertujemy.
 
 ```java
     @Test
@@ -339,7 +339,7 @@ Test sprawdzający czy po wprowadzeniu danych złego typu, wyskoczy nam BAD_REQU
 ```
 
 Mamy dwa testy sprawdzające czy autoryzacja (basicAuth) działa poprawnie. W pierwszym zostały podane poprawne dane do logowania,
-w drugim zostało zmienione hasło.
+w drugim teście hasło, które zostało podane - było nieprawidłowe.
 
 ```java
     @Test
