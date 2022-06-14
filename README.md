@@ -11,7 +11,7 @@ Do testowania wykorzystałem aplikacje Postman.
 
 ## Autentykacja
 
-Zastosowana jest podstawowa autentykacja która pozwala na zapis historii operacji osobno dla każdego z użytkowników.
+Zastosowana jest podstawowa autentykacja _(basic auth)_ która pozwala na zapis historii operacji osobno dla każdego z użytkowników.
 Stworzone są dwa konta w pamięci, **user** z rolą **_USER_**, oraz **admin** z rolą _**ADMIN**_. 
 Przed korzystaniem z API trzeba się zalogować na user, zalogowanie na admina daje nam dostęp do H2-console, konsoli bazy danych.
 Gdy wejdziemy przez przeglądarke powinno nam wyskoczyć okienko z prośba podania nazwy użytkownika oraz hasła.
@@ -236,7 +236,7 @@ Fragment przykładowego wyniku: http://localhost:8090/api/calc/history/all
 Do obsługi błędów stworzyłem specjalny ExceptionHandler, który w przypadku gdy użyjemy innego typu 
 niż double, wyskoczy nam status _BAD_REQUEST_, wraz z wiadomością i błędem, informującym 
 nam o tym że _**degrees**_ powinny być typu _**double**_. 
-Domyślnie Spring sam wyrzuca nam status 400, oraz _BAD_REQUEST_, jednak bez dokładnej informacji dlaczego.
+Domyślnie Spring sam wyrzuca nam status 400 _BAD_REQUEST_, jednak bez dokładnej informacji dlaczego.
 
 
 Przykład błędu w przypadku http://localhost:8090/api/calc/kelvin/temp
