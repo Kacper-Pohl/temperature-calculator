@@ -11,8 +11,7 @@ na _**calcHistory**_ w _**resources/data**_.
 
 Przykład:
 ```
-spring.datasource.url=jdbc:h2:file:E:/Studia/Repo/GitHub/temperature-calculator/calculator/resources/data/calcHistory;AUTO_SERVER=true;
-```
+jdbc:h2:file:E:/GitHub/temperature-calculator/calculator/src/main/resources/data/calcHistory;AUTO_SERVER=true;```
 
 
 ## Autentykacja
