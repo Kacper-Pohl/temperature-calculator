@@ -301,3 +301,109 @@ public class ResponseError {
 }
 ```
 
+## Testy - API
+
+W ApiTest.java znajduje się pięc testów które sprawdzają czy przy zapytaniach do API wszystko zwraca się tak jak powinno.
+Wszystkie testy przeszły.
+
+Pierwszy test sprawdza czy zwraca nam poprawny wynik kalkulacji i poprawny calculationUnit.
+
+```java
+    @Test
+    public void getCorrectCalculation() throws Exception {
+        mvc.perform(get("/api/calc/kelvin/{degrees}", 27).with(httpBasic("admin","password")))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.fahrenheit", Is.is(-411.07)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.kelvin",Is.is(27.0)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.celsius",Is.is(-246.15)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.calculationUnit",Is.is("KELVIN")))
+                .andDo(print());
+    }
+```
+
+Test sprawdzający czy po wprowadzeniu danych złego typu, wyskoczy nam BAD_REQUEST, oraz wiadomoć błędu o złym typie.
+
+```java
+    @Test
+    public void getErrorCalculation() throws Exception{
+        mvc.perform(get("/api/calc/kelvin/{degrees}", "degrees").with(httpBasic("user","password")))
+                .andExpect(status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errors.[0]", Is.is("degrees should be of type double"))).andDo(print());
+    }
+```
+
+Mamy dwa testy sprawdzające czy autoryzacja (basicAuth) działa poprawnie. W pierwszym zostały podane poprawne dane do logowania,
+w drugim zostało zmienione hasło.
+
+```java
+    @Test
+    public void checkAuthCorrectPassword() throws Exception{
+        mvc.perform(get("/api/calc/history").with(httpBasic("user","password")))
+        .andExpect(status().isOk()).andDo(print());
+        }
+
+    @Test
+    public void checkAuthWrongPassword() throws Exception{
+        mvc.perform(get("/api/calc/history").with(httpBasic("user","password1")))
+        .andExpect(status().isUnauthorized()).andDo(print());
+        }
+```
+
+Ostatni test sprawdza czy historia lokalna poprawnie działa w zależności od zmiany użytkownika.
+Wprowadzamy obliczenia na dwóch różnych użytkownikach i sprawdzamy czy wyniki się zgadzają w obu przypadkach.
+
+```java
+    @Test
+    public void checkHistoryLocal() throws Exception{
+        mvc.perform(get("/api/calc/kelvin/{degrees}", 27).with(httpBasic("admin","password"))).andExpect(status().isOk());
+        mvc.perform(get("/api/calc/fahrenheit/{degrees}", 27).with(httpBasic("user","password"))).andExpect(status().isOk());
+        mvc.perform(get("/api/calc/history").with(httpBasic("admin","password")))
+        .andExpect(status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.[0].fahrenheit", Is.is(-411.07)))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.[0].kelvin",Is.is(27.0)))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.[0].celsius",Is.is(-246.15)))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.[0].calculationUnit",Is.is("KELVIN")));
+        mvc.perform(get("/api/calc/history").with(httpBasic("user","password")))
+        .andExpect(status().isOk())
+        .andExpect(MockMvcResultMatchers.jsonPath("$.[0].fahrenheit", Is.is(27.0)))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.[0].kelvin",Is.is(270.37)))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.[0].celsius",Is.is(-2.78)))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.[0].calculationUnit",Is.is("FAHRENHEIT")));
+
+        }
+```
+
+## Testy - Calculation
+
+Trzy testy sprawdzające czy wszystkie metody obliczające wartości temperatur, zwracają poprawne wyniki, dla każdej z trzech jednostek. 
+
+```java
+    private static final double DELTA = 0;
+
+    @Test
+    @DisplayName("Calculation from Celsius")
+    public void testCalcCelsius(){
+        var calc = Calculator.fromCelsius(20);
+        assertEquals(20,calc.getCelsius(),DELTA);
+        assertEquals(68.0,calc.getFahrenheit(),DELTA);
+        assertEquals(293.15,calc.getKelvin(),DELTA);
+    }
+
+    @Test
+    @DisplayName("Calculation from Fahrenheit")
+    public void testCalcFahrenheit(){
+        var calc = Calculator.fromFahrenheit(20);
+        assertEquals(-6.67,calc.getCelsius(),DELTA);
+        assertEquals(20,calc.getFahrenheit(),DELTA);
+        assertEquals(266.48,calc.getKelvin(),DELTA);
+    }
+
+    @Test
+    @DisplayName("Calculation from Kelvin")
+    public void testCalcKelvin(){
+        var calc = Calculator.fromKelvin(20);
+        assertEquals(-253.15,calc.getCelsius(),DELTA);
+        assertEquals(-423.67,calc.getFahrenheit(),DELTA);
+        assertEquals(20,calc.getKelvin(),DELTA);
+    }
+```

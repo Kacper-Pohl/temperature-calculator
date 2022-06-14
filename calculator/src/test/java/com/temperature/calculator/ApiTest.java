@@ -35,7 +35,6 @@ public class ApiTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.celsius",Is.is(-246.15)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.calculationUnit",Is.is("KELVIN")))
                 .andDo(print());
-
     }
 
     @Test
@@ -61,7 +60,6 @@ public class ApiTest {
     public void checkHistoryLocal() throws Exception{
         mvc.perform(get("/api/calc/kelvin/{degrees}", 27).with(httpBasic("admin","password"))).andExpect(status().isOk());
         mvc.perform(get("/api/calc/fahrenheit/{degrees}", 27).with(httpBasic("user","password"))).andExpect(status().isOk());
-        mvc.perform(get("/api/calc/celsius/{degrees}", 28).with(httpBasic("user","password"))).andExpect(status().isOk());
         mvc.perform(get("/api/calc/history").with(httpBasic("admin","password")))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.[0].fahrenheit", Is.is(-411.07)))
@@ -70,10 +68,10 @@ public class ApiTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.[0].calculationUnit",Is.is("KELVIN")));
         mvc.perform(get("/api/calc/history").with(httpBasic("user","password")))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].fahrenheit", Is.is(82.4)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].kelvin",Is.is(301.15)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].celsius",Is.is(28.0)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].calculationUnit",Is.is("CELCIUS")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].fahrenheit", Is.is(27.0)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].kelvin",Is.is(270.37)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].celsius",Is.is(-2.78)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].calculationUnit",Is.is("FAHRENHEIT")));
 
     }
 
