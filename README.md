@@ -4,10 +4,16 @@ Kalkulator, służący do konwersji temperatury między stopniami Celsjusza, Fah
 
 Aplikacja oparta na spring boot, obsługiwana przez _REST API_.
 
-Przed uruchomieniem ważne jest aby w _**application.properties**_ zmienić ściężkę bazy, tak aby była ustawiona 
-na plik _**calcHistory.mv.db**_ w _**resources/data**_.
-
 Do testowania wykorzystałem aplikacje Postman.
+
+Przed uruchomieniem ważne jest aby w _**application.properties**_ zmienić ściężkę bazy, tak aby była ustawiona 
+na _**calcHistory**_ w _**resources/data**_.
+
+Przykład:
+```
+spring.datasource.url=jdbc:h2:file:E:/Studia/Repo/GitHub/temperature-calculator/calculator/resources/data/calcHistory;AUTO_SERVER=true;
+```
+
 
 ## Autentykacja
 
