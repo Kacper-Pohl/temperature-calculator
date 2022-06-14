@@ -53,7 +53,6 @@ public class CalculatorController {
         return calulator;
     }
 
-
     @GetMapping("/history")
     public List<Calculator> historyLocal(){
         return localHistory.getUserHistory(getUsername());
