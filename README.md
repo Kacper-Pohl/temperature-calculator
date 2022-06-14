@@ -11,8 +11,8 @@ na _**calcHistory**_ w _**resources/data**_.
 
 Przykład:
 ```
-jdbc:h2:file:E:/GitHub/temperature-calculator/calculator/src/main/resources/data/calcHistory;AUTO_SERVER=true;```
-
+spring.datasource.url=jdbc:h2:file:E:/GitHub/temperature-calculator/calculator/src/main/resources/data/calcHistory;AUTO_SERVER=true;
+```
 
 ## Autentykacja
 
@@ -29,7 +29,7 @@ Konta:
 ```
 
 ```java
-public UserDetailsService users() {
+    public UserDetailsService users() {
         User.UserBuilder users = User.withDefaultPasswordEncoder();
         UserDetails user = users
                 .username("user")
