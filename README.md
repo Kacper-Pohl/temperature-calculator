@@ -375,7 +375,7 @@ Wprowadzamy obliczenia na dwóch różnych użytkownikach i sprawdzamy czy wynik
 
 ## Testy - Calculation
 
-Trzy testy sprawdzające czy wszystkie metody obliczające wartości temperatur, zwracają poprawne wyniki, dla każdej z trzech jednostek. 
+Trzy testy sprawdzające czy wszystkie metody konwertujące wartości temperatur, zwracają poprawne wyniki, dla każdej z trzech jednostek. 
 
 ```java
     private static final double DELTA = 0;
